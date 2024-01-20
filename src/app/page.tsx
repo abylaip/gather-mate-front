@@ -1,6 +1,9 @@
 "use client";
 
 const Home = () => {
+  const handleGoogleOauth = () => {
+    window.location.href = "http://localhost:3001/api/auth/google/login";
+  };
   return (
     <div className="h-screen flex flex-row items-center justify-center bg-slate-100 space-x-32">
       <div className="flex flex-col">
@@ -13,7 +16,10 @@ const Home = () => {
       <div className="flex flex-col space-y-5 rounded-xl bg-white shadow-2xl p-10">
         <p className="font-semibold text-gray-600">You can sign in with:</p>
         <div className="flex flex-row space-x-6">
-          <button className="opacity-50 hover:opacity-100 cursor-pointer">
+          <button
+            onClick={handleGoogleOauth}
+            className="opacity-50 hover:opacity-100 cursor-pointer"
+          >
             <img
               src="https://static-00.iconduck.com/assets.00/google-icon-2048x2048-czn3g8x8.png"
               alt=""

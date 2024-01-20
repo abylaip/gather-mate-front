@@ -1,7 +1,15 @@
+"use client";
+
 import Link from "next/link";
-import { ReactNode } from "react";
+import { ReactNode, useEffect, useState } from "react";
+import { usePathname } from "next/navigation";
 
 const Layout = ({ children }: { children: ReactNode }) => {
+  const pathname = usePathname();
+  const [avatar, setAvatar] = useState<string | null>();
+  useEffect(() => {
+    setAvatar(localStorage.getItem("user_picture"));
+  }, []);
   const paths = [
     {
       label: "Profile",
@@ -39,7 +47,10 @@ const Layout = ({ children }: { children: ReactNode }) => {
               </svg>
             </button>
             <img
-              src="https://static.vecteezy.com/system/resources/thumbnails/003/337/584/small/default-avatar-photo-placeholder-profile-icon-vector.jpg"
+              src={
+                avatar ??
+                "https://static.vecteezy.com/system/resources/thumbnails/003/337/584/small/default-avatar-photo-placeholder-profile-icon-vector.jpg"
+              }
               alt=""
               className="h-10 w-10 rounded-full object-contain"
             />
@@ -52,7 +63,9 @@ const Layout = ({ children }: { children: ReactNode }) => {
             <Link
               href={item.path}
               key={key}
-              className="rounded p-3 w-full hover:bg-blue-400 hover:text-white font-semibold text-center"
+              className={`rounded p-3 w-full ${
+                pathname === item.path ? "bg-blue-400 text-white" : ""
+              } font-semibold text-center`}
             >
               {item.label}
             </Link>

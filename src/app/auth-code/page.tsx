@@ -1,0 +1,70 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import { useRouter, useSearchParams } from "next/navigation";
+import ClipLoader from "react-spinners/ClipLoader";
+import Cookies from "js-cookie";
+
+const AuthCode = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
+  const [loggedIn, setLoggedIn] = useState(false);
+
+  const getAuthTokens = async () => {
+    let auth_code = String(searchParams.get("code"));
+    const params = new URLSearchParams();
+    params.append("code", auth_code);
+    try {
+      const response = await fetch(
+        `http://localhost:3001/api/auth/exchange-code`,
+        {
+          method: "POST",
+          headers: {
+            "Content-Type": "application/x-www-form-urlencoded",
+          },
+          body: params,
+        }
+      );
+      if (response.ok) {
+        const data = await response.json();
+        const expiresInDays = data.expires_in / 86400;
+        const [emailPath] = data.email.split("@");
+        Cookies.set("access_token", data.id_token, { expires: expiresInDays });
+        localStorage.setItem("user_name", data.name);
+        localStorage.setItem("user_email", data.email);
+        localStorage.setItem("user_picture", data.picture);
+        router.push(`/${emailPath}/profile`);
+        setLoggedIn(true);
+      }
+    } catch (error) {
+      console.log(error);
+    }
+  };
+
+  useEffect(() => {
+    if (localStorage.getItem("access_token")) {
+      router.push("/abylaipp/profile");
+    }
+    if (searchParams.get("code")) {
+      getAuthTokens();
+    }
+  }, []);
+
+  return (
+    <div className="w-full flex flex-row justify-center pt-10">
+      {loggedIn ? (
+        <p className="text-blue-500 font-bold">Success</p>
+      ) : (
+        <ClipLoader
+          color={"#7a7777"}
+          loading={true}
+          size={35}
+          aria-label="Loading Spinner"
+          data-testid="loader"
+        />
+      )}
+    </div>
+  );
+};
+
+export default AuthCode;
