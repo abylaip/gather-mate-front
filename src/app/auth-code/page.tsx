@@ -33,6 +33,7 @@ const AuthCode = () => {
         localStorage.setItem("user_name", data.name);
         localStorage.setItem("user_email", data.email);
         localStorage.setItem("user_picture", data.picture);
+        localStorage.setItem("user_id", data.id);
         router.push(`/${emailPath}/profile`);
         setLoggedIn(true);
       }
