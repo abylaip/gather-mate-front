@@ -9,8 +9,10 @@ const AuthCode = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
   const [loggedIn, setLoggedIn] = useState(false);
+  let flag = false;
 
   const getAuthTokens = async () => {
+    flag = true;
     let auth_code = String(searchParams.get("code"));
     const params = new URLSearchParams();
     params.append("code", auth_code);
@@ -46,7 +48,7 @@ const AuthCode = () => {
     if (localStorage.getItem("access_token")) {
       router.push("/abylaipp/profile");
     }
-    if (searchParams.get("code")) {
+    if (!flag) {
       getAuthTokens();
     }
   }, []);
