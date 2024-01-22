@@ -1,10 +1,11 @@
 "use client";
 
-import { useState, useEffect } from "react";
+import { useState, useEffect, useContext } from "react";
 import Layout from "@/components/layout";
 import { buildAxios } from "@/utils/buildAxios";
 import { Modal } from "@/components/modal";
 import { useDebounce } from "@/utils/useDebounce";
+import { WebsocketContext } from "@/utils/friendsWebsocketContext";
 
 type Friend = {
   id: string;
@@ -19,6 +20,7 @@ type ReceiveRequest = {
 };
 
 const FriendsPage = () => {
+  const contextSocket = useContext(WebsocketContext);
   const [friends, setFriends] = useState<Friend[]>([]);
   const [searchedValues, setSearchedValues] = useState<Friend[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
@@ -27,6 +29,18 @@ const FriendsPage = () => {
   const [requestChange, setRequestChange] = useState(false);
   const [receives, setReceives] = useState<ReceiveRequest[]>([]);
   const debouncedValue = useDebounce<string>(searchValue, 500);
+
+  useEffect(() => {
+    if (contextSocket) {
+      contextSocket.on("friend-request", (data) => {
+        setRequestChange(!requestChange);
+        console.log("change");
+      });
+      return () => {
+        contextSocket.off("friend-request");
+      };
+    }
+  }, [contextSocket]);
 
   useEffect(() => {
     if (debouncedValue.length > 0) {
@@ -206,7 +220,7 @@ const FriendsPage = () => {
                       <div className="flex flex-row space-x-2">
                         <button
                           onClick={() => acceptRequest(item.request_id)}
-                          className="px-4 py-2 border bg-green-500 text-white border-gray-200 rounded-lg"
+                          className="px-4 py-2 border bg-green-400 text-white border-gray-200 rounded-lg"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"
@@ -225,7 +239,7 @@ const FriendsPage = () => {
                         </button>
                         <button
                           onClick={() => declineRequest(item.request_id)}
-                          className="px-4 py-2 border bg-red-500 text-white border-gray-200 rounded-lg"
+                          className="px-4 py-2 border bg-red-400 text-white border-gray-200 rounded-lg"
                         >
                           <svg
                             xmlns="http://www.w3.org/2000/svg"

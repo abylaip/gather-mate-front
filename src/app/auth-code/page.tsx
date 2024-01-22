@@ -35,7 +35,7 @@ const AuthCode = () => {
         localStorage.setItem("user_name", data.name);
         localStorage.setItem("user_email", data.email);
         localStorage.setItem("user_picture", data.picture);
-        localStorage.setItem("user_id", data.id);
+        localStorage.setItem("user_id", data.user_id);
         router.push(`/${emailPath}/profile`);
         setLoggedIn(true);
       }
@@ -45,8 +45,9 @@ const AuthCode = () => {
   };
 
   useEffect(() => {
+    let path = localStorage.getItem("user_email");
     if (localStorage.getItem("access_token")) {
-      router.push("/abylaipp/profile");
+      router.push(`/${path?.split("@")[0]}/profile`);
     }
     if (!flag) {
       getAuthTokens();
