@@ -65,7 +65,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
               key={key}
               className={`rounded p-3 w-full ${
                 pathname === item.path ? "bg-blue-400 text-white" : ""
-              } font-semibold text-center`}
+              } font-semibold text-center cursor-pointer`}
             >
               {item.label}
             </Link>

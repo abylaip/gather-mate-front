@@ -12,12 +12,20 @@ type Friend = {
   displayName: string;
 };
 
+type ReceiveRequest = {
+  request_id: string;
+  email: string;
+  displayName: string;
+};
+
 const FriendsPage = () => {
   const [friends, setFriends] = useState<Friend[]>([]);
   const [searchedValues, setSearchedValues] = useState<Friend[]>([]);
   const [showModal, setShowModal] = useState<boolean>(false);
   const [searchValue, setSearchValue] = useState("");
   const [sent, setSent] = useState<string[]>([]);
+  const [requestChange, setRequestChange] = useState(false);
+  const [receives, setReceives] = useState<ReceiveRequest[]>([]);
   const debouncedValue = useDebounce<string>(searchValue, 500);
 
   useEffect(() => {
@@ -51,7 +59,21 @@ const FriendsPage = () => {
         });
         setSent(requests);
       });
-  }, []);
+
+    buildAxios()
+      .get(`friends/received-requests`)
+      .then((response) => {
+        let requests: ReceiveRequest[] = [];
+        response.data.forEach((item: any) => {
+          requests.push({
+            request_id: item.id,
+            displayName: item.Sender.displayName,
+            email: item.Sender.email,
+          });
+        });
+        setReceives(requests);
+      });
+  }, [requestChange]);
 
   const sendFriendRequest = async (receiverId: string) => {
     const res = await buildAxios().post(
@@ -59,6 +81,20 @@ const FriendsPage = () => {
     );
     if (res.status === 201) {
       setSent([...sent, receiverId]);
+    }
+  };
+
+  const acceptRequest = async (requestId: string) => {
+    const res = await buildAxios().patch(`friends/${requestId}/accept`);
+    if (res.status === 200) {
+      setRequestChange(!requestChange);
+    }
+  };
+
+  const declineRequest = async (requestId: string) => {
+    const res = await buildAxios().patch(`friends/${requestId}/decline`);
+    if (res.status === 200) {
+      setRequestChange(!requestChange);
     }
   };
 
@@ -150,6 +186,67 @@ const FriendsPage = () => {
               </button>
             </div>
             <div className="w-full">
+              {receives.length > 0 && (
+                <div className="flex flex-col border border-gray-100 rounded-lg p-3">
+                  <p className="text-xl mb-3">Friend Requests</p>
+                  {receives.map((item: ReceiveRequest) => (
+                    <div
+                      className="flex flex-row justify-between"
+                      key={item.request_id}
+                    >
+                      <div className="flex flex-row space-x-5 items-center">
+                        <img
+                          src="https://static.vecteezy.com/system/resources/thumbnails/003/337/584/small/default-avatar-photo-placeholder-profile-icon-vector.jpg"
+                          alt=""
+                          className="h-12 w-12 rounded-full object-cover"
+                        />
+                        <p className="text-2xl">{item.displayName}</p>
+                        <p className="text-2xl">{item.email}</p>
+                      </div>
+                      <div className="flex flex-row space-x-2">
+                        <button
+                          onClick={() => acceptRequest(item.request_id)}
+                          className="px-4 py-2 border bg-green-500 text-white border-gray-200 rounded-lg"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="M9 12.75 11.25 15 15 9.75M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                        <button
+                          onClick={() => declineRequest(item.request_id)}
+                          className="px-4 py-2 border bg-red-500 text-white border-gray-200 rounded-lg"
+                        >
+                          <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            strokeWidth={1.5}
+                            stroke="currentColor"
+                            className="w-6 h-6"
+                          >
+                            <path
+                              strokeLinecap="round"
+                              strokeLinejoin="round"
+                              d="m9.75 9.75 4.5 4.5m0-4.5-4.5 4.5M21 12a9 9 0 1 1-18 0 9 9 0 0 1 18 0Z"
+                            />
+                          </svg>
+                        </button>
+                      </div>
+                    </div>
+                  ))}
+                </div>
+              )}
               <div className="flex flex-col">
                 {!!friends &&
                   friends.map((item: Friend) => (
