@@ -210,6 +210,9 @@ const EventsPage = () => {
                       <th scope="col" className="py-3 px-6 text-center">
                         Participants
                       </th>
+                      <th scope="col" className="py-3 px-6 text-start">
+                        Chat
+                      </th>
                     </tr>
                   </thead>
                   <tbody>
@@ -234,9 +237,14 @@ const EventsPage = () => {
                                 setParticipants(items.participants);
                                 setShowPeopleModal(true);
                               }}
-                              className="bg-green-100 text-green-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded"
+                              className="bg-gray-100 text-black text-sm font-semibold mr-2 px-2.5 py-0.5 rounded"
                             >
                               Show
+                            </button>
+                          </td>
+                          <td className="">
+                            <button className="bg-blue-100 text-blue-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded">
+                              Open Chat
                             </button>
                           </td>
                         </tr>

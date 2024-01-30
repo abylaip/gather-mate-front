@@ -104,6 +104,10 @@ const Layout = ({ children }: { children: ReactNode }) => {
       path: `/${path}/events`,
     },
     {
+      label: "Chats",
+      path: `/${path}/chats`,
+    },
+    {
       label: "Friends",
       path: `/${path}/friends`,
     },
@@ -157,10 +161,7 @@ const Layout = ({ children }: { children: ReactNode }) => {
 
   return (
     <WebsocketProvider value={socket}>
-      <div
-        className="flex flex-col relative max-h-screen overflow-hidden"
-        ref={dropdownRef}
-      >
+      <div className="flex flex-col relative max-h-screen overflow-hidden">
         <div className="w-full top-0 z-10 py-5 bg-white shadow-lg">
           <div className="px-32 flex w-full justify-between items-center">
             <p className="font-semibold text-blue-500">Gather Mate</p>
@@ -201,7 +202,10 @@ const Layout = ({ children }: { children: ReactNode }) => {
                 )}
               </button>
               {isOpen && (
-                <div className="absolute rounded-lg shadow-md border border-gray-100 p-4 bg-white top-9 right-10 w-96">
+                <div
+                  className="absolute rounded-lg shadow-md border border-gray-100 p-4 bg-white top-9 right-10 w-96"
+                  ref={dropdownRef}
+                >
                   <div className="flex flex-col space-y-3">
                     {notifications.length > 0 ? (
                       notifications.map((item: Notification, key: number) => (
@@ -241,8 +245,10 @@ const Layout = ({ children }: { children: ReactNode }) => {
               <Link
                 href={item.path}
                 key={key}
-                className={`rounded p-3 w-full hover:bg-blue-100 hover:text-black ${
-                  pathname === item.path ? "bg-blue-400 text-white" : ""
+                className={`rounded p-3 w-full ${
+                  pathname === item.path
+                    ? "bg-blue-400 text-white"
+                    : "hover:bg-blue-100 hover:text-black"
                 } font-semibold text-center cursor-pointer`}
               >
                 {item.label}
