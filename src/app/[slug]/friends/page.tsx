@@ -32,12 +32,11 @@ const FriendsPage = () => {
 
   useEffect(() => {
     if (contextSocket) {
-      contextSocket.on("friend-request", (data) => {
+      contextSocket.on("notifications", (data) => {
         setRequestChange(!requestChange);
-        console.log("change");
       });
       return () => {
-        contextSocket.off("friend-request");
+        contextSocket.off("notifications");
       };
     }
   }, [contextSocket]);
@@ -261,20 +260,20 @@ const FriendsPage = () => {
                   ))}
                 </div>
               )}
-              <div className="flex flex-col">
+              <div className="flex flex-col w-full">
                 {!!friends &&
                   friends.map((item: Friend) => (
                     <div
-                      className="flex flex-row space-x-5 items-center"
+                      className="flex flex-row space-x-5 items-center border border-gray-200 p-2 rounded"
                       key={item.id}
                     >
                       <img
                         src="https://static.vecteezy.com/system/resources/thumbnails/003/337/584/small/default-avatar-photo-placeholder-profile-icon-vector.jpg"
                         alt=""
-                        className="h-14 w-14 rounded-full object-cover"
+                        className="h-12 w-12 rounded-full object-cover"
                       />
-                      <p className="text-2xl">{item.displayName}</p>
-                      <p className="text-2xl">{item.email}</p>
+                      <p className="text-xl">{item.displayName}</p>
+                      <p className="text-xl">{item.email}</p>
                     </div>
                   ))}
               </div>
