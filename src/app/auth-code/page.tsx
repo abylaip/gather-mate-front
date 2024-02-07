@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useState, Suspense } from "react";
 import { useRouter, useSearchParams } from "next/navigation";
 import ClipLoader from "react-spinners/ClipLoader";
 import Cookies from "js-cookie";
@@ -10,7 +10,11 @@ const AuthCodePage = () => {
   if (typeof window !== "undefined" && !searchParams.get("code")) {
     return <DefaultComponent />;
   } else {
-    return <AuthCode />;
+    return (
+      <Suspense>
+        <AuthCode />
+      </Suspense>
+    );
   }
 };
 
