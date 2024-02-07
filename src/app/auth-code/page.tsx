@@ -5,12 +5,18 @@ import { useRouter, useSearchParams } from "next/navigation";
 import ClipLoader from "react-spinners/ClipLoader";
 import Cookies from "js-cookie";
 
-const AuthCode = () => {
-  const router = useRouter();
+const AuthCodePage = () => {
   const searchParams = useSearchParams();
   if (!searchParams.get("code")) {
     return <DefaultComponent />;
+  } else {
+    return <AuthCode />;
   }
+};
+
+const AuthCode = () => {
+  const router = useRouter();
+  const searchParams = useSearchParams();
   const [loggedIn, setLoggedIn] = useState(false);
   let flag = false;
 
@@ -78,4 +84,4 @@ const DefaultComponent = () => {
   return <div>wroong</div>;
 };
 
-export default AuthCode;
+export default AuthCodePage;
