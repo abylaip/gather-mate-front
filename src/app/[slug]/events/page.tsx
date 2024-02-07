@@ -1,6 +1,7 @@
 "use client";
 
 import { useState, useEffect, useContext } from "react";
+import { useRouter } from "next/navigation";
 import Layout from "@/components/layout";
 import { Modal } from "@/components/modal";
 import { buildAxios } from "@/utils/buildAxios";
@@ -29,6 +30,7 @@ type UploadEvent = {
 };
 
 const EventsPage = () => {
+  const router = useRouter();
   const contextSocket = useContext(WebsocketContext);
   const [showModal, setShowModal] = useState(false);
   const [showPeopleModal, setShowPeopleModal] = useState(false);
@@ -36,6 +38,7 @@ const EventsPage = () => {
   const [participants, setParticipants] = useState<Participant[]>([]);
   const [friends, setFriends] = useState<Participant[]>([]);
   const [requestChange, setRequestChange] = useState<boolean>(false);
+  const [path, setPath] = useState<string>();
   const [eventApplication, setEventApplication] = useState<UploadEvent>({
     title: "",
     description: "",
@@ -55,6 +58,8 @@ const EventsPage = () => {
   }, [contextSocket]);
 
   useEffect(() => {
+    const email = localStorage.getItem("user_email");
+    setPath(email?.split("@")[0]);
     const userId = localStorage.getItem("user_id");
     setUploadParticipants([userId!]);
     buildAxios()
@@ -243,7 +248,12 @@ const EventsPage = () => {
                             </button>
                           </td>
                           <td className="">
-                            <button className="bg-blue-100 text-blue-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded">
+                            <button
+                              onClick={() =>
+                                router.push(`/${path}/chats?id=${items.id}`)
+                              }
+                              className="bg-blue-100 text-blue-800 text-sm font-semibold mr-2 px-2.5 py-0.5 rounded"
+                            >
                               Open Chat
                             </button>
                           </td>

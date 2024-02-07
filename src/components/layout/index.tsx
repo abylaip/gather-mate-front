@@ -164,11 +164,13 @@ const Layout = ({ children }: { children: ReactNode }) => {
       <div className="flex flex-col relative max-h-screen overflow-hidden">
         <div className="w-full top-0 z-10 py-5 bg-white shadow-lg">
           <div className="px-32 flex w-full justify-between items-center">
-            <p className="font-semibold text-blue-500">Gather Mate</p>
+            <p className="font-semibold text-blue-500">Join Me</p>
             <div className="flex flex-row space-x-4 relative">
               <button
                 onClick={handleToggleDropdown}
-                className="hover:text-blue-500 text-gray-500 cursor-pointer"
+                className={`hover:text-blue-500 text-gray-500 cursor-pointer ${
+                  indicator && "text-blue-500"
+                }`}
               >
                 {indicator ? (
                   <svg
