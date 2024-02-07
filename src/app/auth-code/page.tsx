@@ -54,14 +54,15 @@ const AuthCode = () => {
   };
 
   useEffect(() => {
-    if (searchParams.get("code")) {
+    const code = searchParams.get("code");
+    if (code !== undefined || code !== null) {
       let path = localStorage.getItem("user_email");
       if (localStorage.getItem("access_token")) {
         router.push(`/${path?.split("@")[0]}/profile`);
       }
-    }
-    if (!flag && searchParams.get("code")) {
-      getAuthTokens();
+      if (!flag) {
+        getAuthTokens();
+      }
     }
   }, []);
 
