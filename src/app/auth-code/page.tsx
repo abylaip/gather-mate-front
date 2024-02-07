@@ -58,7 +58,7 @@ const AuthCode = () => {
     if (localStorage.getItem("access_token")) {
       router.push(`/${path?.split("@")[0]}/profile`);
     }
-    if (!flag) {
+    if (!flag && searchParams.get("code")) {
       getAuthTokens();
     }
   }, []);
