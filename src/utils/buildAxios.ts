@@ -3,7 +3,7 @@ import Cookies from "js-cookie";
 
 export function buildAxios() {
   return axios.create({
-    baseURL: "http://localhost:3001/api",
+    baseURL: `${process.env.NEXT_PUBLIC_API_URL}/api`,
     headers: {
       Authorization: `Bearer ${Cookies.get("access_token")}`,
     },

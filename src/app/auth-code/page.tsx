@@ -18,7 +18,7 @@ const AuthCode = () => {
     params.append("code", auth_code);
     try {
       const response = await fetch(
-        `http://localhost:3001/api/auth/exchange-code`,
+        `${process.env.NEXT_PUBLIC_API_URL}/api/auth/exchange-code`,
         {
           method: "POST",
           headers: {

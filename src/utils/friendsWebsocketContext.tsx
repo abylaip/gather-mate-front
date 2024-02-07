@@ -5,7 +5,7 @@ import { io, Socket } from "socket.io-client";
 
 const userId = localStorage.getItem("user_id");
 
-export const socket = io("http://localhost:3001", {
+export const socket = io(`${process.env.NEXT_PUBLIC_API_URL}`, {
   query: { userId },
   transports: ["websocket"],
 });

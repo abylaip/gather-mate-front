@@ -6,7 +6,7 @@ import Layout from "@/components/layout";
 import { buildAxios } from "@/utils/buildAxios";
 import io from "socket.io-client";
 
-const SOCKET_SERVER_URL = "ws://localhost:3001";
+const SOCKET_SERVER_URL = process.env.NEXT_PUBLIC_API_URL;
 
 type Group = {
   id: string;

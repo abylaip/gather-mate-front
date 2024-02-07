@@ -2,7 +2,7 @@
 
 const Home = () => {
   const handleGoogleOauth = () => {
-    window.location.href = "http://localhost:3001/api/auth/google/login";
+    window.location.href = `${process.env.NEXT_PUBLIC_API_URL}/api/auth/google/login`;
   };
   return (
     <div className="h-screen flex flex-row items-center justify-center bg-slate-100 space-x-32">
