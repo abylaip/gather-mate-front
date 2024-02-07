@@ -8,6 +8,9 @@ import Cookies from "js-cookie";
 const AuthCode = () => {
   const router = useRouter();
   const searchParams = useSearchParams();
+  if (!searchParams.get("code")) {
+    return <DefaultComponent />;
+  }
   const [loggedIn, setLoggedIn] = useState(false);
   let flag = false;
 
@@ -56,7 +59,6 @@ const AuthCode = () => {
 
   return (
     <div className="w-full flex flex-row justify-center pt-10">
-      <p>Connecting...</p>
       {loggedIn ? (
         <p className="text-blue-500 font-bold">Success</p>
       ) : (
@@ -70,6 +72,10 @@ const AuthCode = () => {
       )}
     </div>
   );
+};
+
+const DefaultComponent = () => {
+  return <div>wroong</div>;
 };
 
 export default AuthCode;
