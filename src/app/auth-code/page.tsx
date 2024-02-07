@@ -7,7 +7,7 @@ import Cookies from "js-cookie";
 
 const AuthCodePage = () => {
   const searchParams = useSearchParams();
-  if (!searchParams.get("code")) {
+  if (typeof window !== "undefined" && !searchParams.get("code")) {
     return <DefaultComponent />;
   } else {
     return <AuthCode />;
