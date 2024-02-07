@@ -56,6 +56,7 @@ const AuthCode = () => {
 
   return (
     <div className="w-full flex flex-row justify-center pt-10">
+      <p>Connecting...</p>
       {loggedIn ? (
         <p className="text-blue-500 font-bold">Success</p>
       ) : (
