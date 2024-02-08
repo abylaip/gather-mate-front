@@ -17,6 +17,12 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
+      <head>
+        <meta
+          name="google-site-verification"
+          content="RLaDbymtiz85N_-W3sx_eDr8-RpHbl5C601y-R59tIE"
+        />
+      </head>
       <Head>
         <link rel="icon" type="image/x-icon" href="/favicon.ico" />
         <meta
