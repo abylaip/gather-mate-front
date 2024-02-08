@@ -106,6 +106,7 @@ const EventsPage = () => {
                   title: e.target.value,
                 })
               }
+              value={eventApplication.title}
             />
             <input
               type="datetime-local"
@@ -117,6 +118,7 @@ const EventsPage = () => {
                   date: e.target.value,
                 })
               }
+              value={eventApplication.date}
             />
           </div>
           <textarea
@@ -132,6 +134,7 @@ const EventsPage = () => {
                 description: e.target.value,
               })
             }
+            value={eventApplication.description}
           />
           <div className="w-full border border-gray-200 rounded p-2">
             <select
