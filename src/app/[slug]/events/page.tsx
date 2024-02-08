@@ -82,6 +82,12 @@ const EventsPage = () => {
     });
     if (res.status === 201) {
       setShowModal(false);
+      setEventApplication({
+        title: "",
+        description: "",
+        date: "",
+      });
+      setRequestChange(!requestChange);
     }
   };
 
